@@ -1,15 +1,17 @@
 # Let’s Shyp – Hyperlocal Courier Allocation Backend
 
-[cite_start]This is a Node.js/Express-based backend service designed to handle the end-to-end booking lifecycle for a hyperlocal delivery system[cite: 8, 12].
+This is a Node.js/Express-based backend service designed to handle the end-to-end booking lifecycle for a hyperlocal delivery system.
 
 ---
 
 ## 🚀 System Design & Reasoning
 
-[cite_start]**Design Approach:** I implemented a service-oriented architecture focusing on a strict **State Machine** to manage order lifecycles: `CREATED` → `ASSIGNED` → `PICKED_UP` → `IN_TRANSIT` → `DELIVERED`[cite: 23, 27]. [cite_start]All courier allocations are deterministic, calculated using the **Manhattan Distance** formula[cite: 37].
+**Design Approach:** I implemented a service-oriented architecture focusing on a strict 
+**State Machine** to manage order lifecycles and its strictly following rules: `CREATED` → `ASSIGNED` → `PICKED_UP` → `IN_TRANSIT` → `DELIVERED`
+.All courier allocations are deterministic, calculated using the **Manhattan Distance** formula[cite: 37].
 
 
-[cite_start]**Concurrency Handling:** To prevent race conditions where the same courier is assigned to multiple orders, I utilized MongoDB’s atomic `findOneAndUpdate` operation[cite: 46]. [cite_start]By filtering for `{ isAvailable: true }` during the update, the system ensures that courier assignment is thread-safe and deterministic[cite: 45, 47].
+**Concurrency Handling:** To prevent race conditions where the same courier is assigned to multiple orders, I utilized MongoDB’s atomic `findOneAndUpdate` operation[cite: 46]. [cite_start]By filtering for `{ isAvailable: true }` during the update, the system ensures that courier assignment is thread-safe and deterministic[cite: 45, 47].
 
 **Scalability Improvement:** In a production environment, I would replace the linear search of couriers with a **Geospatial Index** (like Redis Geo or MongoDB `$near`). [cite_start]This would allow the system to query couriers within a specific radius in $O(\log N)$ time rather than $O(N)$, significantly improving performance as the pool grows[cite: 66].
 
