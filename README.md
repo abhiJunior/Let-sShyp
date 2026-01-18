@@ -27,7 +27,7 @@ This is a Node.js/Express-based backend service designed to handle the end-to-en
    node seed.js
 
 3. Start Server:
-   npm start
+   npm run dev
    (Default: http://localhost:5000)
 
 📖 API Documentation
